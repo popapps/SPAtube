@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using App.Model;
-
-namespace App.Data.Contracts
+﻿namespace App.Data.Contracts
 {
     public interface IAppUow
     {
@@ -13,6 +6,7 @@ namespace App.Data.Contracts
 
 
         IUserProfileRepository UserProfiles { get; }
-
+        IVideoRepository Videos { get; }
+        IPlaylistRepository Playlists{ get; }
     }
 }

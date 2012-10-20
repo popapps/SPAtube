@@ -11,5 +11,7 @@ namespace App.Model
         public int Id { get; set; }
         public string UserName { get; set; }
         public bool IsApproved { get; set; }
+
+        public virtual ICollection<Playlist> Playlists { get; set; }
     }
 }

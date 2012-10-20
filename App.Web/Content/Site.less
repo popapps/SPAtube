@@ -1,0 +1,42 @@
+@font-family: "Segoe UI",Arial,Helvetica,sans-serif;
+@font-family-light: "Segoe UI Light","Segoe Light","Segoe UI","Helvetica-Light",Arial,Helvetica,sans-serif;
+
+body {
+    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+#busyindicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+}
+
+.view {
+    display: none;
+}
+
+.thumbnail {
+    img {
+        width: 120px;
+        height: 90px;
+    }
+}
+
+.thumbnails {
+    margin-bottom: 5px;
+
+    .caption {
+        h3 {
+            padding-left: 10px;
+        }
+    }
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}

@@ -11,14 +11,18 @@ namespace App.Data
         {
         }
 
+        public DbSet<Playlist> Playlists { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Video> Videos { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Configurations.Add(new PlaylistConfiguration());
             modelBuilder.Configurations.Add(new UserProfileConfiguration());
+            modelBuilder.Configurations.Add(new VideoConfiguration());
         }
 
     }

@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPlaylistRepository.cs" />
+    <Compile Include="IVideoRepository.cs" />
     <Compile Include="IAppUow.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUserProfileRepository.cs" />

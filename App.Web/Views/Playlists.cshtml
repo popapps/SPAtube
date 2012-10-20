@@ -1,0 +1,21 @@
+﻿<section id="playlists-view">
+    <div class="well">
+        <ul class="nav nav-list">
+            <li class="nav-header">Playlists</li>
+            <!-- ko foreach: playlists-->
+            <li class="clearfix">
+                <button class="pull-right" data-bind="click: $parent.removePlaylist"><i class="icon-trash"></i></button>
+                <a data-bind="text: title"></a>
+
+            </li>
+            <!-- /ko -->
+            <li class="divider"></li>
+            <li>
+                <div class="input-append">
+                    <input type="text" class="input-medium" placeholder="Create Playlist" data-bind="value: newPlaylist" />
+                    <button class="btn" data-bind="click: addPlaylist" type="button"><i class="icon-plus"></i></button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>

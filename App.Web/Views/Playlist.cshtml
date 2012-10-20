@@ -1,0 +1,13 @@
+﻿<section id="playlist-view" class="view" data-bind="transitionVisible: isRefreshing">
+    <ul data-bind="foreach: videos" >
+        <li class="thumbnails">
+            <a data-bind="attr: { title: title, href: '#' }, click: $parent.openVideo" class="thumbnail clearfix">
+                <img data-bind="attr: { alt: title, src: 'http://img.youtube.com/vi/'+ id + '/1.jpg' }" class="pull-left" />
+                <div class="caption">
+                    <h3 data-bind="text: title" class="ellipsis"></h3>
+                </div>
+                
+            </a>
+        </li>
+    </ul>
+</section>

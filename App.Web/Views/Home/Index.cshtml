@@ -1,53 +1,87 @@
-﻿<header>
-    <div class="content-wrapper">
-        <div class="float-left">
-            <p class="site-title">
-                <a href="~/">ASP.NET Web API</a></p>
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SPAtube</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Fabrizio Iezzoni">
+
+    <!-- Le styles -->
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+</head>
+
+<body>
+    <div id="busyindicator"></div>
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#/home">SPAtube</a>
+                <form class="navbar-search pull-left" method="GET" action="#/search">
+                    <input type="text" class="search-query" name="q" placeholder="Search">
+                    <i class="icon-search" style="margin-left: -32px;"></i>
+                </form>
+                <ul class="nav pull-right">
+                    @if (!Request.IsAuthenticated)
+                    {
+                        
+                        <a class="btn btn-primary" href="@Url.Action("Login", "Account")" title="Login">
+                            <i class="icon-user icon-white"></i>&nbsp;Login</a>
+                        
+                    }
+                    else
+                    {
+                        <a class="btn" href="@Url.Action("LogOff", "Account")" title="LogOff">LogOff</a>
+                        
+                    }
+                </ul>
+
+                <!--/.nav-collapse -->
+            </div>
         </div>
     </div>
-</header>
-<div id="body">
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>Welcome to ASP.NET Web API!</h1>
-                <h2>Modify the code in this template to jump-start your ASP.NET Web API development.</h2>
-            </hgroup>
-            <p>
-                ASP.NET Web API allows you to expose your applications, data and services to the
-                web directly over HTTP.
-            </p>
-            <p>
-                To learn more about ASP.NET Web API visit
-                <a href="http://go.microsoft.com/fwlink/?LinkID=238195" title="ASP.NET Web API Website">http://asp.net/web-api</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET Web API.
-                If you have any questions about ASP.NET Web API, visit
-                <a href="http://go.microsoft.com/fwlink/?LinkID=238196" title="ASP.NET Web API Forum">our forums</a>.
-            </p>
-        </div>
-    </section>
-    <section class="content-wrapper main-content clear-fix">
-        <h3>We suggest the following steps:</h3>
-        <ol class="round">
-            <li class="one">
-                <h5>Getting Started</h5>
-                ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-                a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-                is an ideal platform for building RESTful applications on the .NET Framework.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245160">Learn more…</a>
-            </li>
 
-            <li class="two">
-                <h5>Add NuGet packages and jump-start your coding</h5>
-                NuGet makes it easy to install and update free libraries and tools.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245161">Learn more…</a>
-            </li>
-            <li class="three">
-                <h5>Find Web Hosting</h5>
-                You can easily find a web hosting company that offers the right mix of features
-                and price for your applications.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245164">Learn more…</a>
-            </li>
-        </ol>
-    </section>
-</div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                @RenderPage("~/Views/Playlists.cshtml")
+            </div>
+            <div class="span9">
+                @RenderPage("~/Views/Playlist.cshtml")
+                @RenderPage("~/Views/Video.cshtml")
+
+            </div>
+        </div>
+
+    </div>
+    <!-- /container -->
+
+    <!-- Javascript, Placed at the end of the document so the pages load faster -->
+    <script src="//www.youtube.com/iframe_api"></script>
+    @Scripts.Render(
+        "~/bundles/jquery",
+        "~/bundles/lib",
+        "~/Scripts/lib/require.js",
+        "~/bundles/app",
+        "~/Scripts/main.js"
+        )
+
+</body>
+</html>

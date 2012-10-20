@@ -27,8 +27,7 @@ namespace App.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return new ExternalLoginResult("google", Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
 
         //
@@ -49,8 +48,7 @@ namespace App.Web.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
+       
 
         public ActionResult LogOff()
         {
@@ -59,8 +57,7 @@ namespace App.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
-        // GET: /Account/Register
+     
 
         //
 
@@ -173,17 +170,6 @@ namespace App.Web.Controllers
         }
 
         //
-        // POST: /Account/ExternalLogin
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-        }
-
-        //
         // GET: /Account/ExternalLoginCallback
 
         [AllowAnonymous]
@@ -192,11 +178,8 @@ namespace App.Web.Controllers
             var result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
             if (!result.IsSuccessful)
             {
-                return RedirectToAction("ExternalLoginFailure");
+                return Redirect("/");
             }
-            //var user = Uow.UserProfiles.GetByUserName(result.UserName);
-            //if (user != null && !user.IsApproved)
-            //    return RedirectToAction("Index", "Home");
             if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
             {
 
@@ -211,94 +194,27 @@ namespace App.Web.Controllers
             }
             else
             {
-                // User is new, ask for their desired membership name
-                var loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
+                var userName = result.UserName;
                 ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
-            }
-        }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
-        {
-            string provider = null;
-            string providerUserId = null;
-
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
-            {
-                return RedirectToAction("Manage");
-            }
-
-            if (ModelState.IsValid)
-            {
                 // Insert a new user into the database
-                var user = Uow.UserProfiles.GetByUserName(model.UserName);
+                var user = Uow.UserProfiles.GetByUserName(userName);
                 // Check if user already exists
                 if (user == null)
                 {
                     // Insert name into the profile table
 
-                    Uow.UserProfiles.Add(new UserProfile { UserName = model.UserName });
+                    Uow.UserProfiles.Add(new UserProfile { UserName = userName });
                     Uow.Commit();
 
-                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                    //OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
-                    return RedirectToLocal(returnUrl);
+                    OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, userName);
+                    OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false);
                 }
-                else
-                {
-                    ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                }
+
+                return RedirectToLocal(returnUrl);
             }
-
-            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
         }
 
-        //
-        // GET: /Account/ExternalLoginFailure
 
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        [ChildActionOnly]
-        public ActionResult ExternalLoginsList(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
-        }
-
-        [ChildActionOnly]
-        public ActionResult RemoveExternalLogins()
-        {
-            var accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
-            var externalLogins = new List<ExternalLogin>();
-            foreach (var account in accounts)
-            {
-                var clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
-
-                externalLogins.Add(new ExternalLogin
-                {
-                    Provider = account.Provider,
-                    ProviderDisplayName = clientData.DisplayName,
-                    ProviderUserId = account.ProviderUserId,
-                });
-            }
-
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            return PartialView("_RemoveExternalLoginsPartial", externalLogins);
-        }
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

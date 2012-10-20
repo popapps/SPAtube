@@ -29,13 +29,15 @@ namespace App.Data
         private void CreateDbContext()
         {
             DbContext = new AppDbContext();
-            // Disabilito la creazione delle entity proxy altrimenti la serializzazione fallisce
+            // Do NOT enable proxied entities, else serialization fails
             DbContext.Configuration.ProxyCreationEnabled = false;
 
-            // Le proprietà di navigazione possono essere navigate solo tramite Load esplicito
+            // Load navigation properties explicitly (avoid serialization trouble)
             DbContext.Configuration.LazyLoadingEnabled = false;
 
+            // Because Web API will perform validation, we don't need/want EF to do so
             DbContext.Configuration.ValidateOnSaveEnabled = false;
+
         }
 
         public void Dispose()
@@ -50,9 +52,17 @@ namespace App.Data
         }
 
 
+        public IPlaylistRepository Playlists
+        {
+            get { return GetRepository<IPlaylistRepository>(); }
+        }
         public IUserProfileRepository UserProfiles
         {
             get { return GetRepository<IUserProfileRepository>(); }
+        }
+        public IVideoRepository Videos
+        {
+            get { return GetRepository<IVideoRepository>(); }
         }
     }
 }

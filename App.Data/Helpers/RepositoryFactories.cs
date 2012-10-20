@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using App.Data.Contracts;
 
 namespace App.Data.Helpers
@@ -36,6 +33,8 @@ namespace App.Data.Helpers
             return new Dictionary<Type, Func<AppDbContext, object>>
                 {
                    {typeof(IUserProfileRepository), dbContext => new UserProfileRepository(dbContext)},
+                   {typeof(IVideoRepository), dbContext => new VideoRepository(dbContext)},
+                   {typeof(IPlaylistRepository), dbContext => new PlaylistRepository(dbContext)},
                 };
         }
 

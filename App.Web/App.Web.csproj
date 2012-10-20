@@ -178,8 +178,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\UserProfilesController.cs" />
+    <Compile Include="Controllers\PlaylistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\SimpleMembershipInitializer.cs" />
     <Compile Include="Filters\WebApiInitializeSimpleMembershipAttribute.cs" />
@@ -188,19 +191,133 @@
     </Compile>
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AppUow.cs" />
     <Compile Include="Models\ViewModels\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\less\bootstrap.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\bootstrap.min.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\responsive.css">
+      <DependentUpon>responsive.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\responsive.min.css">
+      <DependentUpon>responsive.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\toastr-responsive.css" />
+    <Content Include="Content\toastr.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.8.2.js" />
-    <Content Include="Scripts\jquery-1.8.2.min.js" />
-    <Content Include="Scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Content\less\wells.less" />
+    <Content Include="Content\less\variables.less" />
+    <Content Include="Content\less\utilities.less" />
+    <Content Include="Content\less\type.less" />
+    <Content Include="Content\less\tooltip.less" />
+    <Content Include="Content\less\thumbnails.less" />
+    <Content Include="Content\less\tables.less" />
+    <Content Include="Content\less\sprites.less" />
+    <Content Include="Content\less\scaffolding.less" />
+    <Content Include="Content\less\responsive-utilities.less" />
+    <Content Include="Content\less\responsive-navbar.less" />
+    <Content Include="Content\less\responsive-768px-979px.less" />
+    <Content Include="Content\less\responsive-767px-max.less" />
+    <Content Include="Content\less\responsive-1200px-min.less" />
+    <Content Include="Content\less\responsive.less" />
+    <Content Include="Content\less\reset.less" />
+    <Content Include="Content\less\progress-bars.less" />
+    <Content Include="Content\less\popovers.less" />
+    <Content Include="Content\less\pagination.less" />
+    <Content Include="Content\less\pager.less" />
+    <Content Include="Content\less\navs.less" />
+    <Content Include="Content\less\navbar.less" />
+    <Content Include="Content\less\modals.less" />
+    <Content Include="Content\less\mixins.less" />
+    <Content Include="Content\less\layouts.less" />
+    <Content Include="Content\less\labels-badges.less" />
+    <Content Include="Content\less\hero-unit.less" />
+    <Content Include="Content\less\grid.less" />
+    <Content Include="Content\less\forms.less" />
+    <Content Include="Content\less\dropdowns.less" />
+    <Content Include="Content\less\component-animations.less" />
+    <Content Include="Content\less\code.less" />
+    <Content Include="Content\less\close.less" />
+    <Content Include="Content\less\carousel.less" />
+    <Content Include="Content\less\buttons.less" />
+    <Content Include="Content\less\button-groups.less" />
+    <Content Include="Content\less\breadcrumbs.less" />
+    <Content Include="Content\less\bootstrap.less" />
+    <Content Include="Content\less\alerts.less" />
+    <Content Include="Content\less\accordion.less" />
+    <Content Include="Content\Site.less" />
+    <Content Include="Scripts\app\binder.js" />
+    <Content Include="Scripts\app\dataservice.userProfile.js" />
+    <Content Include="Scripts\app\dataservice.video.js" />
+    <Content Include="Scripts\app\vm.playlists.js" />
+    <Content Include="Scripts\app\vm.playlist.js" />
+    <Content Include="Scripts\app\vm.video.js" />
+    <Content Include="Scripts\app\dataservice.js" />
+    <Content Include="Scripts\app\utils.js" />
+    <Content Include="Scripts\app\dataservice.playlist.js" />
+    <None Include="Scripts\lib\jquery-1.8.2.intellisense.js" />
+    <None Include="Scripts\lib\amplify-vsdoc.js" />
+    <Content Include="Require.JS - LICENSE.txt" />
+    <Content Include="Scripts\app\bootstrapper.js" />
+    <Content Include="Scripts\app\config.js" />
+    <Content Include="Scripts\app\ko.bindingHandlers.js" />
+    <Content Include="Scripts\app\messenger.js" />
+    <Content Include="Scripts\app\presenter.js" />
+    <Content Include="Scripts\app\route-config.js" />
+    <Content Include="Scripts\app\route-mediator.js" />
+    <Content Include="Scripts\app\router.js" />
+    <Content Include="Scripts\app\store.js" />
+    <Content Include="Scripts\app\vm.js" />
+    <Content Include="Scripts\lib\activity-indicator.js" />
+    <Content Include="Scripts\lib\amplify.js" />
+    <Content Include="Scripts\lib\amplify.min.js" />
+    <Content Include="Scripts\lib\bootstrap.js" />
+    <Content Include="Scripts\lib\bootstrap.min.js" />
+    <Content Include="Scripts\lib\cs.js" />
+    <Content Include="Scripts\lib\domReady.js" />
+    <Content Include="Scripts\lib\GPL-LICENSE.txt" />
+    <Content Include="Scripts\lib\i18n.js" />
+    <Content Include="Scripts\lib\jquery-1.8.2.js" />
+    <Content Include="Scripts\lib\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\lib\json2.js" />
+    <Content Include="Scripts\lib\json2.min.js" />
+    <Content Include="Scripts\lib\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\lib\knockout-2.1.0.js" />
+    <Content Include="Scripts\lib\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\lib\knockout.mapping-latest.js" />
+    <Content Include="Scripts\lib\knockout.validation.debug.js" />
+    <Content Include="Scripts\lib\knockout.validation.js" />
+    <Content Include="Scripts\lib\less.min.js" />
+    <Content Include="Scripts\lib\MIT-LICENSE.txt" />
+    <Content Include="Scripts\lib\modernizr-2.6.2.js" />
+    <Content Include="Scripts\lib\moment.js" />
+    <Content Include="Scripts\lib\moment.min.js" />
+    <Content Include="Scripts\lib\r.js" />
+    <Content Include="Scripts\lib\README.txt" />
+    <Content Include="Scripts\lib\require.js" />
+    <Content Include="Scripts\lib\require.min.js" />
+    <Content Include="Scripts\lib\text.js" />
+    <Content Include="Scripts\lib\toastr.js" />
+    <Content Include="Scripts\lib\underscore.js" />
+    <Content Include="Scripts\lib\underscore.min.js" />
+    <Content Include="Scripts\main.js" />
+    <None Include="Scripts\lib\sammy-0.7.1-vsdoc.js" />
+    <Content Include="Scripts\lib\sammy-0.7.1.js" />
+    <Content Include="Scripts\lib\sammy-0.7.1.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -208,7 +325,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\heroAccent.png" />
@@ -224,10 +340,10 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Playlists.cshtml" />
+    <Content Include="Views\Playlist.cshtml" />
+    <Content Include="Views\Video.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

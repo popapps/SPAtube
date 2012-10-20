@@ -1,0 +1,13 @@
+﻿<section id="video-view" class="view" data-bind="transitionVisible: isRefreshing">
+    <div data-bind="if: video() != null">
+        <iframe id="player" type="text/html" width="640" height="390"
+                data-bind="attr: {src: playerUrl }"
+                frameborder="0"></iframe>
+        <h2 data-bind="text: video().title"></h2>
+        <p data-bind="text: video().description"></p>
+
+    </div>
+
+
+
+</section>
